@@ -1,8 +1,21 @@
-const Bookinstance = require("../models/bookinstance");
+var BookInstance = require("../models/bookinstance");
+var Book = require("../models/book");
+var async = require("async");
 
-// 显示完整的藏书副本
-exports.bookinstance_list = (req, res) => {
-  res.send("未实现：作者列表");
+// Display list of all BookInstances.
+exports.bookinstance_list = function (req, res, next) {
+  BookInstance.find()
+    .populate("book")
+    .exec(function (err, list_bookinstances) {
+      if (err) {
+        return next(err);
+      }
+      // Successful, so render
+      res.render("bookinstance_list", {
+        title: "Book Instance List",
+        bookinstance_list: list_bookinstances,
+      });
+    });
 };
 
 // 为藏书副本显示详细信息的页面
