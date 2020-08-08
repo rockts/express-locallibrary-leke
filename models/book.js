@@ -12,7 +12,7 @@ const BookSchema = new Schema({
 
 // 虚拟属性'url'：藏书 URL
 BookSchema.virtual("url").get(function () {
-  return "/catalog/book/" + this._id;
+  return "/catalog/books/" + this._id;
 });
 
 // 导出 Book 模块
