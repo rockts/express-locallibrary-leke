@@ -111,4 +111,33 @@ router.get("/authors/:id", author_controller.author_detail);
 // GET 请求完整作者列表
 router.get("/authors", author_controller.author_list);
 
+/**
+ * genre router
+ */
+// GET 请求添加新的种类
+router.get("/genres/create", genre_controller.genre_create_get);
+
+// POST 请求添加新的种类
+router.post("/genres/create", genre_controller.genre_create_post);
+
+// GET 请求删除种类
+router.get("/genres/:id/delete", genre_controller.genre_delete_get);
+
+// POST 请求删除种类
+router.post("/genres/:id/delete", genre_controller.genre_delete_post);
+
+// GET 请求更新种类
+router.get("/genres/:id/update", genre_controller.genre_update_get);
+
+// POST 请求更新种类
+router.post("/genres/:id/update", genre_controller.genre_update_post);
+
+// GET 请求种类
+router.get("/genres/:id", genre_controller.genre_detail);
+
+// GET 请求完整作者种类
+router.get("/genres", genre_controller.genre_list);
+
+module.exports = router;
+
 module.exports = router;
