@@ -185,12 +185,85 @@ exports.author_delete_post = function (req, res, next) {
   );
 };
 
-// 由 GET 显示更新作者的表单
-exports.author_update_get = (req, res) => {
-  res.send("未实现：作者更新表单的 GET");
+// Display Author update form on GET.
+exports.author_update_get = function (req, res, next) {
+  Author.findById(req.params.id, function (err, author) {
+    if (err) {
+      return next(err);
+    }
+    if (author == null) {
+      // No results.
+      var err = new Error("Author not found");
+      err.status = 404;
+      return next(err);
+    }
+    // Success.
+    res.render("author_form", { title: "Update Author", author: author });
+  });
 };
 
-// 由 POST 处理作者更新操作
-exports.author_update_post = (req, res) => {
-  res.send("未实现：更新作者的 POST");
-};
+// Handle Author update on POST.
+exports.author_update_post = [
+  // Validate fields.
+  body("first_name")
+    .isLength({ min: 1 })
+    .trim()
+    .withMessage("First name must be specified.")
+    .isAlphanumeric()
+    .withMessage("First name has non-alphanumeric characters."),
+  body("family_name")
+    .isLength({ min: 1 })
+    .trim()
+    .withMessage("Family name must be specified.")
+    .isAlphanumeric()
+    .withMessage("Family name has non-alphanumeric characters."),
+  body("date_of_birth", "Invalid date of birth")
+    .optional({ checkFalsy: true })
+    .isISO8601(),
+  body("date_of_death", "Invalid date of death")
+    .optional({ checkFalsy: true })
+    .isISO8601(),
+
+  // Sanitize fields.
+  sanitizeBody("first_name").escape(),
+  sanitizeBody("family_name").escape(),
+  sanitizeBody("date_of_birth").toDate(),
+  sanitizeBody("date_of_death").toDate(),
+
+  // Process request after validation and sanitization.
+  (req, res, next) => {
+    // Extract the validation errors from a request.
+    const errors = validationResult(req);
+
+    // Create Author object with escaped and trimmed data (and the old id!)
+    var author = new Author({
+      first_name: req.body.first_name,
+      family_name: req.body.family_name,
+      date_of_birth: req.body.date_of_birth,
+      date_of_death: req.body.date_of_death,
+      _id: req.params.id,
+    });
+
+    if (!errors.isEmpty()) {
+      // There are errors. Render the form again with sanitized values and error messages.
+      res.render("author_form", {
+        title: "Update Author",
+        author: author,
+        errors: errors.array(),
+      });
+      return;
+    } else {
+      // Data from form is valid. Update the record.
+      Author.findByIdAndUpdate(req.params.id, author, {}, function (
+        err,
+        theauthor
+      ) {
+        if (err) {
+          return next(err);
+        }
+        // Successful - redirect to genre detail page.
+        res.redirect(theauthor.url);
+      });
+    }
+  },
+];
