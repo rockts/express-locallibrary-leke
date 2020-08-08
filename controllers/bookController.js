@@ -189,14 +189,79 @@ exports.book_create_post = [
   },
 ];
 
-// 由 GET 显示删除书的表单
-exports.book_delete_get = (req, res) => {
-  res.send("未实现：作者删除表单的 GET");
+// Display book delete form on GET.
+exports.book_delete_get = function (req, res, next) {
+  async.parallel(
+    {
+      book: function (callback) {
+        Book.findById(req.params.id)
+          .populate("author")
+          .populate("genre")
+          .exec(callback);
+      },
+      book_bookinstances: function (callback) {
+        BookInstance.find({ book: req.params.id }).exec(callback);
+      },
+    },
+    function (err, results) {
+      if (err) {
+        return next(err);
+      }
+      if (results.book == null) {
+        // No results.
+        res.redirect("/catalog/books");
+      }
+      // Successful, so render.
+      res.render("book_delete", {
+        title: "Delete Book",
+        book: results.book,
+        book_instances: results.book_bookinstances,
+      });
+    }
+  );
 };
 
-// 由 POST 处理书删除操作
-exports.book_delete_post = (req, res) => {
-  res.send("未实现：删除作者的 POST");
+// Handle book delete on POST.
+exports.book_delete_post = function (req, res, next) {
+  // Assume the post has valid id (ie no validation/sanitization).
+
+  async.parallel(
+    {
+      book: function (callback) {
+        Book.findById(req.body.id)
+          .populate("author")
+          .populate("genre")
+          .exec(callback);
+      },
+      book_bookinstances: function (callback) {
+        BookInstance.find({ book: req.body.id }).exec(callback);
+      },
+    },
+    function (err, results) {
+      if (err) {
+        return next(err);
+      }
+      // Success
+      if (results.book_bookinstances.length > 0) {
+        // Book has book_instances. Render in same way as for GET route.
+        res.render("book_delete", {
+          title: "Delete Book",
+          book: results.book,
+          book_instances: results.book_bookinstances,
+        });
+        return;
+      } else {
+        // Book has no BookInstance objects. Delete object and redirect to the list of books.
+        Book.findByIdAndRemove(req.body.id, function deleteBook(err) {
+          if (err) {
+            return next(err);
+          }
+          // Success - got to books list.
+          res.redirect("/catalog/books");
+        });
+      }
+    }
+  );
 };
 
 // Display book update form on GET.
