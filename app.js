@@ -1,5 +1,6 @@
 var createError = require("http-errors");
 var express = require("express");
+var helmet = require("helmet");
 // 设置 Mongoose 连接
 const mongoose = require("mongoose");
 const mongoDB =
@@ -16,9 +17,11 @@ var logger = require("morgan");
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 const catalogRouter = require("./routes/catalog"); // 导入 catalog 路由
+var compression = require("compression");
 
 var app = express();
 
+app.use(helmet());
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
@@ -27,6 +30,8 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+app.use(compression()); //Compress all routes
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
