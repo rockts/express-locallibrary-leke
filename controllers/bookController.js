@@ -1,5 +1,10 @@
 const Book = require("../models/book");
 
+// 显示书到首页
+exports.index = (req, res) => {
+  res.send("未实现：站点首页");
+};
+
 // 显示完整的作者列表
 exports.book_list = (req, res) => {
   res.send("未实现：作者列表");
