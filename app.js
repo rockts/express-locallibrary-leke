@@ -3,7 +3,8 @@ var express = require("express");
 var helmet = require("helmet");
 // 设置 Mongoose 连接
 const mongoose = require("mongoose");
-const mongoDB =
+var mongoDB =
+  process.env.MONGODB_URI ||
   "mongodb+srv://rockts:r8363678@cluster0.pqpus.mongodb.net/local_library?retryWrites=true&w=majority";
 mongoose.connect(mongoDB);
 mongoose.Promise = global.Promise;
