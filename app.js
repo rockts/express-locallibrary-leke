@@ -2,7 +2,8 @@ var createError = require("http-errors");
 var express = require("express");
 // 设置 Mongoose 连接
 const mongoose = require("mongoose");
-const mongoDB = "mongodb://127.0.0.1/local_library";
+const mongoDB =
+  "mongodb+srv://rockts:r8363678@cluster0.pqpus.mongodb.net/local_library?retryWrites=true&w=majority";
 mongoose.connect(mongoDB);
 mongoose.Promise = global.Promise;
 const db = mongoose.connection;
