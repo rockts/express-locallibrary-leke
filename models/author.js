@@ -23,7 +23,7 @@ AuthorSchema.virtual("lifespan").get(function () {
 
 // 虚拟属性'url'：作者 URL
 AuthorSchema.virtual("url").get(function () {
-  return "/catalog/author/" + this._id;
+  return "/catalog/authors/" + this._id;
 });
 
 // 导出 Author 模型
