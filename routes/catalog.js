@@ -13,25 +13,25 @@ const book_instance_controller = require("../controllers/bookinstanceController"
 router.get("/", book_controller.index);
 
 // GET 请求添加新的藏书。注意此项必须位于显示藏书的路由（使用了 id）之前。
-router.get("/book/create", book_controller.book_create_get);
+router.get("/books/create", book_controller.book_create_get);
 
 // POST 请求添加新的藏书
-router.post("/book/create", book_controller.book_create_post);
+router.post("/books/create", book_controller.book_create_post);
 
 // GET 请求删除藏书
-router.get("/book/:id/delete", book_controller.book_delete_get);
+router.get("/books/:id/delete", book_controller.book_delete_get);
 
 // POST 请求删除藏书
-router.post("/book/:id/delete", book_controller.book_delete_post);
+router.post("/books/:id/delete", book_controller.book_delete_post);
 
 // GET 请求更新藏书
-router.get("/book/:id/update", book_controller.book_update_get);
+router.get("/books/:id/update", book_controller.book_update_get);
 
 // POST 请求更新藏书
-router.post("/book/:id/update", book_controller.book_update_post);
+router.post("/books/:id/update", book_controller.book_update_post);
 
 // GET 请求藏书
-router.get("/book/:id", book_controller.book_detail);
+router.get("/books/:id", book_controller.book_detail);
 
 // GET 请求完整藏书列表
 router.get("/books", book_controller.book_list);
