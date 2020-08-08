@@ -54,64 +54,61 @@ router.post(
   book_instance_controller.bookinstance_create_post
 );
 
-// GET 请求删除藏书
+// GET 请求删除藏书副本
 router.get(
   "/bookinstances/:id/delete",
-  book_instance_controller.bookinstances_delete_get
+  book_instance_controller.bookinstance_delete_get
 );
 
-// POST 请求删除藏书
+// POST 请求删除藏书副本
 router.post(
   "/bookinstances/:id/delete",
-  book_instance_controller.bookinstances_delete_post
+  book_instance_controller.bookinstance_delete_post
 );
 
-// GET 请求更新藏书
+// GET 请求更新藏书副本
 router.get(
   "/bookinstances/:id/update",
-  book_instance_controller.bookinstances_update_get
+  book_instance_controller.bookinstance_update_get
 );
 
-// POST 请求更新藏书
+// POST 请求更新藏书副本
 router.post(
   "/bookinstances/:id/update",
-  book_instance_controller.bookinstances_update_post
+  book_instance_controller.bookinstance_update_post
 );
 
-// GET 请求藏书
-router.get(
-  "/bookinstances/:id",
-  book_instance_controllerr.bookinstances_detail
-);
+// GET 请求藏书副本
+router.get("/bookinstances/:id", book_instance_controller.bookinstance_detail);
 
-// GET 请求完整藏书列表
-router.get("/bookinstancess", book_instance_controller.bookinstances_list);
+// GET 请求完整藏书副本列表
+router.get("/bookinstances", book_instance_controller.bookinstance_list);
 
 /**
  * author router
  */
 // GET 请求添加新的作者
-router.get("/authors/create", author_controller.bookinstance_create_get);
+router.get("/authors/create", author_controller.author_create_get);
 
 // POST 请求添加新的作者
-router.post("/authors/create", author_controllerr.bookinstance_create_post);
+router.post("/authors/create", author_controller.author_create_post);
 
 // GET 请求删除作者
-router.get("/authors/:id/delete", author_controller.bookinstances_delete_get);
+router.get("/authors/:id/delete", author_controller.author_delete_get);
 
 // POST 请求删除作者
-router.post("/authors/:id/delete", author_controller.bookinstances_delete_post);
+router.post("/authors/:id/delete", author_controller.author_delete_post);
 
 // GET 请求更新作者
-router.get("/authors/:id/update", author_controller.bookinstances_update_get);
+router.get("/authors/:id/update", author_controller.author_update_get);
 
 // POST 请求更新作者
-router.post("/authors/:id/update", author_controller.bookinstances_update_post);
+router.post("/authors/:id/update", author_controller.author_update_post);
 
 // GET 请求作者
-router.get("/authors/:id", book_instance_controllerr.bookinstances_detail);
+router.get("/authors/:id", author_controller.author_detail);
 
 // GET 请求完整作者列表
-router.get("/authors", author_controller.bookinstances_list);
+router.get("/authors", author_controller.author_list);
 
 module.exports = router;
