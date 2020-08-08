@@ -139,5 +139,3 @@ router.get("/genres/:id", genre_controller.genre_detail);
 router.get("/genres", genre_controller.genre_list);
 
 module.exports = router;
-
-module.exports = router;
